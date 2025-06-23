@@ -170,7 +170,7 @@ Due to macOS architecture and container isolation, **Docker containers cannot ac
 * **Hardware Isolation**: This VM isolates containers from the Mac host’s hardware, including audio devices.
 * **No Direct Sound Access**: Applications inside the container cannot access the host's sound card or `/dev/snd`, which are essential for audio input/output.
 
-#### ✅ Workarounds (Advanced)
+#### Workarounds (Advanced)
 
 You *can* try setting up a **PulseAudio** server on the Mac host and configuring the container to use it. This involves:
 
@@ -180,7 +180,7 @@ You *can* try setting up a **PulseAudio** server on the Mac host and configuring
 
 However, this approach is **not seamless**, requires manual setup, and is **outside the scope of this project**.
 
-#### ✅ Recommendation
+#### Recommendation
 
 For full voice functionality (microphone and speaker access):
 
