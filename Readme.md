@@ -98,10 +98,31 @@ OPENAI_API_KEY=your_openai_api_key
 └── .env                 # API keys (not committed)
 ```
 
-## Extending the Assistant
+## Testing
 
-* Add new backend functions in `agent_functions.py` to handle more queries (e.g., payment status).
-* Update prompts in `agent_config.py` to teach the assistant new intents.
-* Swap JSON data for real databases or APIs for live inventory.
-* Improve UI/UX or add multi-language support.
+Automated tests are included to verify the core backend functions such as order ID normalization and order data retrieval.
 
+### Running Tests
+
+Make sure you have `pytest` installed (it should be included in `requirements.txt`):
+
+```bash
+pip install pytest
+```
+
+Run the tests from the root project directory:
+
+```bash
+pytest tests/
+```
+
+The tests cover functions like:
+
+* `normalize_order_id`: Converts spoken order IDs to normalized strings
+* `get_order_status`: Retrieves order shipment status
+* `get_order_items`: Lists items in an order
+* `get_delivery_address`: Fetches shipping address
+* `get_vendor_name`: Gets vendor information
+* `get_delivery_date`: Returns estimated delivery date
+
+This ensures your backend logic behaves as expected.
