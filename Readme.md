@@ -153,23 +153,30 @@ podman run -d -p 8501:8501 --env-file .env --name deepgram-voice-assistant deepg
 
 
 
-
-
 ### Important Note on macOS
 
-* Due to macOS architecture and container isolation, **Docker containers cannot access your Mac's microphone or speaker hardware.**
-* This means **real-time audio input/output via PyAudio will not work inside the container on macOS**, causing errors and preventing live voice interaction.
-* For local audio functionality, run the app **directly on your host machine** (outside Docker).
-* The web interface (Streamlit app) can still be accessed remotely or in cloud deployments where audio devices are properly exposed.
+Due to macOS architecture and container isolation, **Docker containers cannot access your Mac's microphone or speaker hardware**. This affects real-time audio features like speech input and output.
 
-#### Why This Happens:
+#### ⚠️ Why Real-Time Voice Doesn't Work in Docker on macOS
 
 * **Docker on macOS uses a Linux VM**: Docker Desktop for Mac runs a lightweight Linux virtual machine (VM) to host the Docker daemon and containers.
-* **Isolation from the Host**: This Linux VM provides a security boundary, isolating the containers from directly accessing the Mac host's hardware, including audio devices.
-* **No Direct Hardware Access**: The Docker-for-Mac VM does not have built-in support for passing through the sound device from the Mac host to the container. Applications inside the container don't have direct access to the host's sound card or devices like `/dev/snd`.
+* **Hardware Isolation**: This VM isolates containers from the Mac host’s hardware, including audio devices.
+* **No Direct Sound Access**: Applications inside the container cannot access the host's sound card or `/dev/snd`, which are essential for audio input/output.
 
-#### Possible Workarounds:
+#### ✅ Workarounds (Advanced)
 
-Although direct access isn't straightforward, you can use workarounds like setting up a **PulseAudio** server on the Mac host and configuring the container to connect to it. This allows the container to send or receive audio data through the PulseAudio server, effectively utilizing the Mac's audio hardware.
-However, this method requires manual configuration and is **not as seamless or reliable** as running the application natively on the host.
+You *can* try setting up a **PulseAudio** server on the Mac host and configuring the container to use it. This involves:
+
+* Installing and running a PulseAudio server on your Mac
+* Exposing it to the Docker container over a TCP socket
+* Configuring ALSA or PyAudio inside the container to route through PulseAudio
+
+However, this approach is **not seamless**, requires manual setup, and is **outside the scope of this project**.
+
+#### ✅ Recommendation
+
+For full voice functionality (microphone and speaker access):
+
+* **Run the app natively on your Mac** (outside Docker) using the instructions in the [Usage](#usage) section.
+* Use Docker only for UI deployments in remote or cloud environments where audio devices are properly exposed.
 
