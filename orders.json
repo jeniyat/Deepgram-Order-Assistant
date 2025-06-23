@@ -1,0 +1,80 @@
+[
+  {
+    "order_id": "10001",
+    "store_location": "Springfield Downtown Store",
+    "vendor_name": "Tech Supplies Co.",
+    "status": "Shipped",
+    "order_date": "2025-06-15",
+    "delivery_date": "2025-06-25",
+    "items": [
+      {
+        "product_id": "1001",
+        "product_name": "Wireless Mouse",
+        "quantity": 15,
+        "unit_price": 25.99
+      },
+      {
+        "product_id": "1050",
+        "product_name": "USB-C Charger",
+        "quantity": 30,
+        "unit_price": 19.99
+      }
+    ],
+    "shipping_address": {
+      "line1": "123 Elm Street",
+      "line2": "Apt 4B",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62704",
+      "country": "USA"
+    }
+  },
+  {
+    "order_id": "10023",
+    "store_location": "Columbus East Side Store",
+    "vendor_name": "AudioGear Inc.",
+    "status": "Processing",
+    "order_date": "2025-06-20",
+    "delivery_date": "2025-06-28",
+    "items": [
+      {
+        "product_id": "2030",
+        "product_name": "Bluetooth Headphones",
+        "quantity": 20,
+        "unit_price": 89.99
+      }
+    ],
+    "shipping_address": {
+      "line1": "456 Oak Avenue",
+      "line2": "",
+      "city": "Columbus",
+      "state": "OH",
+      "zip": "43215",
+      "country": "USA"
+    }
+  },
+  {
+    "order_id": "10100",
+    "store_location": "Seattle Central Store",
+    "vendor_name": "Mobile Essentials Ltd.",
+    "status": "On the way",
+    "order_date": "2025-06-10",
+    "delivery_date": "2025-06-23",
+    "items": [
+      {
+        "product_id": "3010",
+        "product_name": "Smartphone Case",
+        "quantity": 50,
+        "unit_price": 15.99
+      }
+    ],
+    "shipping_address": {
+      "line1": "789 Pine Road",
+      "line2": "Unit 12",
+      "city": "Seattle",
+      "state": "WA",
+      "zip": "98101",
+      "country": "USA"
+    }
+  }
+]
