@@ -15,11 +15,6 @@ A voice-enabled conversational assistant for inventory managers to query order s
 * [Directory Structure](#directory-structure)
 * [Testing](#testing)
 * [Docker Usage](#docker-usage)
-g
-
-
-
-Let me know if you want the full updated README file with these sections integrated or any other modifications!
 
 
 ## Overview
