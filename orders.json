@@ -1,6 +1,6 @@
 [
   {
-    "order_id": "10001",
+    "order_id": "10451",
     "store_location": "Springfield Downtown Store",
     "vendor_name": "Tech Supplies Co.",
     "status": "Shipped",
@@ -9,13 +9,13 @@
     "items": [
       {
         "product_id": "1001",
-        "product_name": "Wireless Mouse",
+        "product_name": "Wireless Ergonomic Mouse",
         "quantity": 15,
         "unit_price": 25.99
       },
       {
         "product_id": "1050",
-        "product_name": "USB-C Charger",
+        "product_name": "Fast Charging USB-C Adapter",
         "quantity": 30,
         "unit_price": 19.99
       }
@@ -30,7 +30,7 @@
     }
   },
   {
-    "order_id": "10023",
+    "order_id": "10123",
     "store_location": "Columbus East Side Store",
     "vendor_name": "AudioGear Inc.",
     "status": "Processing",
@@ -39,7 +39,7 @@
     "items": [
       {
         "product_id": "2030",
-        "product_name": "Bluetooth Headphones",
+        "product_name": "Bluetooth Over-Ear Headphones",
         "quantity": 20,
         "unit_price": 89.99
       }
@@ -54,7 +54,7 @@
     }
   },
   {
-    "order_id": "10100",
+    "order_id": "10645",
     "store_location": "Seattle Central Store",
     "vendor_name": "Mobile Essentials Ltd.",
     "status": "On the way",
@@ -63,7 +63,7 @@
     "items": [
       {
         "product_id": "3010",
-        "product_name": "Smartphone Case",
+        "product_name": "Premium Protective Smartphone Case",
         "quantity": 50,
         "unit_price": 15.99
       }

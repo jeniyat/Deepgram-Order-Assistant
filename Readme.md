@@ -1,8 +1,6 @@
-# Deepgram Voice-Activated Order Assistant
+# Deepgram Voice-Activated Order Assistant Demo
 
-A voice-enabled conversational assistant designed to help inventory managers manage and query orders across multiple store locations. This project combines Deepgram’s speech-to-text technology with OpenAI’s GPT-4 models to provide real-time, natural language responses about order statuses, delivery timelines, items, shipping addresses, and vendor information.
-
-
+A voice-enabled conversational assistant for inventory managers to query order status, delivery schedules, items, shipping addresses, and vendor information across multiple store locations. This demo showcases integration of Deepgram’s real-time speech-to-text API with OpenAI’s GPT-4 for natural language understanding, providing a seamless voice interface accessible via both a terminal app and a Streamlit web app.
 
 ## Table of Contents
 
@@ -16,121 +14,94 @@ A voice-enabled conversational assistant designed to help inventory managers man
 - [Extending the Assistant](#extending-the-assistant)  
 - [License](#license)
 
-
-
 ## Overview
 
-Inventory managers often need quick access to order information spanning multiple stores. This voice assistant enables hands-free, conversational queries such as:
-
-- "What is the status of order 10001?"  
-- "When will order 10023 be delivered?"  
-- "What items are in order 10100?"  
-- "What is the shipping address for order 10001?"  
-- "Who is the vendor for order 10023?"
-
-The system listens to spoken input, transcribes it, processes the intent with GPT-4, calls backend functions to fetch relevant data from JSON-based order records, and responds via synthesized speech.
-
-
+Inventory managers require quick, hands-free access to order-related information across multiple stores. This assistant listens to spoken queries, transcribes speech in real time via Deepgram, interprets intent with GPT-4, and fetches relevant data from JSON-based order records, responding verbally and in text.
 
 ## Features
 
-- Real-time speech recognition with Deepgram  
-- Natural language understanding and generation powered by GPT-4  
-- Multi-turn conversational context handling  
-- Query order status, delivery date, items, shipping address, and vendor name  
-- Graceful session termination with polite goodbyes  
-- Supports multiple store orders with normalized order ID mapping
-
-
+- Real-time speech recognition with Deepgram streaming API  
+- Conversational AI powered by OpenAI GPT-4  
+- Multi-turn dialogue context management  
+- Query order status, delivery date, items, shipping address, and vendor details  
+- Session control with start/end calls  
+- Runs both as terminal CLI and interactive Streamlit web application
 
 ## Getting Started
 
 ### Prerequisites
 
 - Python 3.10 or higher  
-- [Deepgram API key](https://developers.deepgram.com)  
-
-
-
+- Deepgram API Key ([Sign up here](https://developers.deepgram.com))  
+- OpenAI API Key
 
 ## Installation
-
-1. Clone the repository
 
 ```bash
 git clone https://github.com/yourusername/deepgram-order-assistant.git
 cd deepgram-order-assistant
+
+python -m venv venv
+source venv/bin/activate  # or .\venv\Scripts\activate on Windows
+
+pip install -r requirements.txt
 ````
 
-2. Create and activate a virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate  
-```
-
-3. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-4. Create a `.env` file in the root directory with your API keys:
+Create a `.env` file in the root directory containing:
 
 ```env
 DEEPGRAM_API_KEY=your_deepgram_api_key
+OPENAI_API_KEY=your_openai_api_key
 ```
-
----
 
 ## Usage
 
-Start the voice assistant by running:
+* **Terminal:**
+  Run the voice assistant in the terminal with:
 
-```bash
-python main.py
-```
+  ```bash
+  python main.py
+  ```
 
-Speak your queries naturally, for example:
+* **Web App (Streamlit):**
+  Launch the interactive voice assistant web app:
 
-* "What is the status of order 10001?"
-* "Tell me the delivery address for order 10023."
-* "List the items in order 10100."
-* "Who is the vendor for order 10023?"
-* "Goodbye."
+  ```bash
+  streamlit run app.py
+  ```
 
-The assistant will respond verbally and in the console log.
+* Speak naturally to ask questions like:
 
----
+	* "What is the status of order 10001?"
+	* "Tell me the delivery address for order 10023."
+	* "List the items in order 10100."
+	* "Who is the vendor for order 10023?"
+
 
 ## Configuration
 
-* `agent_config.py`: Contains agent settings including prompt instructions, models, and function definitions. Customize prompt or add new functions here.
-* `agent_functions.py`: Backend logic to process order queries, load order data, and map spoken order IDs to actual IDs. Modify or extend this file to support new query types.
-* `orders.json`: JSON data store with orders, vendors, items, delivery info, and shipping addresses. Update this to reflect your real inventory data.
-
----
+* `agent_config.py`: Customize prompts, models, and function definitions.
+* `agent_functions.py`: Backend logic to query orders and map spoken IDs to real data.
+* `orders.json`: Sample JSON dataset of orders, vendors, and delivery info.
 
 ## Project Structure
 
 ```
-├── main.py              # Entry point, manages mic input, websockets, and interaction loop  
+├── main.py              # Terminal app entry point with mic and streaming  
+├── app.py               # Streamlit web app interface  
 ├── agent_config.py      # Agent settings and prompts  
-├── agent_functions.py   # Backend functions for querying orders  
+├── agent_functions.py   # Backend query functions  
 ├── orders.json          # Sample order data  
 ├── speaker.py           # Audio playback utility  
-├── requirements.txt     # Python dependencies  
+├── requirements.txt     # Dependencies  
 ├── README.md            # This file  
-└── .env                 # Environment variables (not committed)
+└── .env                 # API keys (not committed)
 ```
-
----
 
 ## Extending the Assistant
 
-* Add new functions to `agent_functions.py` for other queries (e.g., payment status, invoice info)
-* Update the `AGENT_SETTINGS` prompt in `agent_config.py` to instruct the assistant on handling new intents
-* Enhance natural language understanding by fine-tuning prompt templates or leveraging additional NLP models
-* Integrate with real databases or APIs instead of JSON files for dynamic data
-
+* Add new backend functions in `agent_functions.py` to handle more queries (e.g., payment status).
+* Update prompts in `agent_config.py` to teach the assistant new intents.
+* Swap JSON data for real databases or APIs for live inventory.
+* Improve UI/UX or add multi-language support.
 

@@ -15,12 +15,14 @@ AGENT_SETTINGS = {
             "provider": {"model": "gpt-4o-mini", "type": "open_ai"},
             "prompt": (
                 "You are a helpful inventory manager assistant.\n"
-                "- When asked about the status of an order, respond concisely with only the status.\n"
-                "- When asked about the delivery address, respond concisely with only the shipping address.\n"
-                "- When asked about the items, respond concisely with only the items and their quantities.\n"
-                "- When asked about the vendor, respond concisely with only the vendor name.\n"
-                "- When asked about the delivery date, respond concisely with only the delivery date.\n"
-                "- When the user ends the conversation or says goodbye, respond only with: 'Bye and have a nice day.' Do not follow up or continue the conversation after that."
+                "- When the user asks a specific question about an order detail, answer only that question concisely and precisely.\n"
+                "  For example, if the user asks about order status, reply only with the status.\n"
+                "  If asked about delivery address, reply only with the shipping address, etc.\n"
+                "- If the user asks a general or summary question, such as 'Tell me about order {order_id}' or 'Give me details about order {order_id}', "
+                "  provide a clear, concise, human-friendly summary combining key details like status, items, delivery date, vendor, and shipping address.\n"
+                "- Always answer using complete sentences and a natural, conversational tone.\n"
+                "- Do not add extra information beyond what was asked.\n"
+                "- When the user ends the conversation or says goodbye, respond only with: 'Bye and have a nice day.' Do not continue the conversation after that."
             ),
             "functions": [
                 {
