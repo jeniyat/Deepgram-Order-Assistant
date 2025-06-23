@@ -31,6 +31,94 @@ Inventory managers require quick, hands-free access to order-related information
 - Session control with start/end calls  
 - Runs both as terminal CLI and interactive Streamlit web application
 
+
+## Flow Diagram
+
+```
++-----------------+        +------------------+          +--------------------+
+|   User's Mic    |        |   App (async)    |          |  Deepgram Server   |
++-----------------+        +------------------+          +--------------------+
+         |                           |                                |
+         |   (1) Capture Audio       |                                |
+         |==========================>                                 |
+         |                           |                                |
+         |                           |  (2) Send audio chunk over WS  |
+         |                           |===============================>|
+         |                           |                                |
+         |                           |    (3) Server processes audio  |
+         |                           |<===============================|
+         |                           |    (4) Server sends messages   |
+         |                           |        (text/audio)            |
+         |                           |                                |
+         |                           | (5) Receiver coroutine reads   |
+         |                           |       incoming WS messages     |
+         |                           |                                |
+         |                           | (6) If message is a function   |
+         |                           |     call request, invoke       |
+         |                           |     backend functions to       |
+         |                           |     query order data           |
+         |                           |                                |
+         |                           |     +----------------------------------+
+         |                           |     |      Backend Query Layer         |
+         |                           |     | (order lookup, normalize IDs,    |
+         |                           |     |  fetch status, items, addresses) |
+         |                           |     +----------------------------------+
+         |                           |                      |
+         |                           |<=====================+
+         |                           |   (7) If audio bytes received,
+         |                           |       enqueue to Speaker queue
+         |                           |                              |
+         |                           |          +-------------------+
+         |                           |          |   Speaker class   |
+         |                           |          +-------------------+
+         |                           |                     |
+         |                           |                     | (8) Background thread
+         |                           |                     |     pulls audio from
+         |                           |                     |     sync queue
+         |                           |                     |====================>
+         |                           |                     |                    |
+         |                           |                     |        (9) Write to
+         |                           |                     |        PyAudio output
+         |                           |                     |====================>
+         |                           |                     |                    |
+         |                           |                     |        +------------------+
+         |                           |                     |        | Machine Speakers |
+         |                           |                     |        +------------------+
+         |                           |                                |
+         |                           | (10) Meanwhile, async app continues
+         |                           |       sending/receiving messages
+         |                           |                                |
++-----------------+        +------------------+          +--------------------+
+|   User's Mic    |        |   App (async)    |          |  Deepgram Server   |
++-----------------+        +------------------+          +--------------------+
+
+```
+
+### Steps
+
+1. User’s Mic captures audio — The user speaks a query, and the app captures this audio in real time.
+
+2. App sends audio chunks over WebSocket (WS) — The captured audio data is sent asynchronously in small pieces to the Deepgram server via a WebSocket connection.
+
+3. Deepgram server processes audio — The server performs speech-to-text transcription and natural language understanding.
+
+4. Server sends back messages — These include transcribed text, audio responses, or instructions such as function call requests.
+
+5. App’s receiver coroutine processes incoming messages — It listens continuously for incoming WebSocket messages.
+
+6. Function call requests trigger backend queries — When the server requests data, the app calls local backend functions to fetch order information, normalize order IDs, and generate responses.
+
+7. Audio bytes from server enqueue to the Speaker class — If the server sends audio output (e.g., spoken responses), it is queued for playback.
+
+8. Speaker’s background thread pulls audio data — Running in a separate thread, it continuously retrieves audio chunks from a synchronous queue.
+
+9. Audio is played through the machine’s speakers — The thread writes the audio data to the PyAudio output stream for the user to hear.
+
+10. Meanwhile, the app continues streaming — The asynchronous event loop keeps capturing mic input and handling server responses concurrently, ensuring seamless, real-time conversation flow.
+
+
+
+
 ## Getting Started
 
 ### Prerequisites
