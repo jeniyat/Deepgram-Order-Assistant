@@ -1,6 +1,6 @@
 # Deepgram Voice-Activated Order Assistant Demo
 
-A voice-enabled conversational assistant for inventory managers to query order status, delivery schedules, items, shipping addresses, and vendor information across multiple store locations. This demo showcases integration of Deepgram’s real-time speech-to-text API with OpenAI’s GPT-4 for natural language understanding, providing a seamless voice interface accessible via both a terminal app and a Streamlit web app.
+A voice-enabled conversational assistant for inventory managers to query order status, delivery schedules, items, shipping addresses, and vendor information across multiple store locations. This demo showcases integration of Deepgram’s real-time speech-to-text API using GPT-4 for natural language understanding, providing a seamless voice interface accessible via both a terminal app and a Streamlit web app.
 
 
 
@@ -36,7 +36,6 @@ Inventory managers require quick, hands-free access to order-related information
 
 - Python 3.10 or higher  
 - Deepgram API Key ([Sign up here](https://developers.deepgram.com))  
-- OpenAI API Key
 
 ## Installation
 
@@ -54,7 +53,6 @@ Create a `.env` file in the root directory containing:
 
 ```env
 DEEPGRAM_API_KEY=your_deepgram_api_key
-OPENAI_API_KEY=your_openai_api_key
 ```
 
 ## Usage
