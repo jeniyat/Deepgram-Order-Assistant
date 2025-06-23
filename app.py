@@ -13,6 +13,7 @@ from speaker import Speaker
 log_queue = queue.Queue()
 transcript_queue = queue.Queue()
 
+
 class QueueHandler(logging.Handler):
     def __init__(self, q):
         super().__init__()
@@ -24,6 +25,7 @@ class QueueHandler(logging.Handler):
             self.q.put(msg)
         except Exception:
             self.handleError(record)
+
 
 root_logger = logging.getLogger()
 root_logger.setLevel(logging.INFO)
@@ -37,16 +39,17 @@ for handler in root_logger.handlers:
 if existing_console_handler is None:
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
+    formatter = logging.Formatter("%(levelname)s:%(name)s:%(message)s")
     console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
 
 queue_handler = QueueHandler(log_queue)
 queue_handler.setLevel(logging.INFO)
-queue_handler.setFormatter(logging.Formatter('%(levelname)s:%(name)s:%(message)s'))
+queue_handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
 root_logger.addHandler(queue_handler)
 
 logger = logging.getLogger(__name__)
+
 
 def voice_agent_runner(shared, transcript_queue):
     audio, mic_stream = None, None
@@ -55,7 +58,9 @@ def voice_agent_runner(shared, transcript_queue):
 
     async def run_stream():
         try:
-            await start_stream(mic_stream, "wss://agent.deepgram.com/v1/agent/converse", shared)
+            await start_stream(
+                mic_stream, "wss://agent.deepgram.com/v1/agent/converse", shared
+            )
         except asyncio.CancelledError:
             logger.info("Stream task cancelled.")
         finally:
@@ -78,10 +83,12 @@ def voice_agent_runner(shared, transcript_queue):
     finally:
         loop.close()
 
+
 def app():
     st.set_page_config(page_title="Deepgram Voice Agent", layout="wide")
 
-    st.markdown("""
+    st.markdown(
+        """
         <style>
         .stButton>button {
             font-size: 20px;
@@ -100,16 +107,20 @@ def app():
             font-style: italic;
         }
         </style>
-        """, unsafe_allow_html=True)
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.title("🧠🎙️ Deepgram Voice Agent")
 
     with st.expander("ℹ️ About this App", expanded=True):
-        st.markdown("""
+        st.markdown(
+            """
             This interface lets you interact with a voice agent using Deepgram's real-time transcription API.
             - Click 🟢📞 to start a call.
             - Press 🔴 to end the session.
-        """)
+        """
+        )
 
     if "thread" not in st.session_state:
         st.session_state.thread = None
@@ -132,7 +143,9 @@ def app():
     start_disabled = st.session_state.call_running
     end_disabled = not st.session_state.call_running
 
-    if st.button("🟢 Start Call", disabled=start_disabled, key="start_call", help="Start Call"):
+    if st.button(
+        "🟢 Start Call", disabled=start_disabled, key="start_call", help="Start Call"
+    ):
         if st.session_state.thread and st.session_state.thread.is_alive():
             st.warning("Call already running")
         else:
@@ -153,7 +166,7 @@ def app():
             st.session_state.thread = threading.Thread(
                 target=voice_agent_runner,
                 args=(st.session_state.shared, transcript_queue),
-                daemon=True
+                daemon=True,
             )
             st.session_state.thread.start()
             st.session_state.call_running = True
@@ -173,7 +186,11 @@ def app():
             if resp:
                 st.session_state.function_responses.append(resp)
 
-    if st.session_state.thread and not st.session_state.thread.is_alive() and st.session_state.call_running:
+    if (
+        st.session_state.thread
+        and not st.session_state.thread.is_alive()
+        and st.session_state.call_running
+    ):
         st.session_state.call_running = False
         st.session_state.call_ended = True
 
@@ -183,9 +200,12 @@ def app():
     if st.session_state.function_responses:
         st.markdown("### Function Call Responses")
         for resp in st.session_state.function_responses:
-            st.markdown(f'<div class="function-response">{resp}</div>', unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="function-response">{resp}</div>', unsafe_allow_html=True
+            )
 
     st_autorefresh(interval=1000, key="refresh")
+
 
 if __name__ == "__main__":
     app()

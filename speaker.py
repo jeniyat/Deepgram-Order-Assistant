@@ -5,6 +5,7 @@ import queue
 import time
 import asyncio
 
+
 def _play(audio_out, stream, stop):
     while not stop.is_set():
         try:
@@ -12,6 +13,7 @@ def _play(audio_out, stream, stop):
             stream.write(data)
         except queue.Empty:
             pass
+
 
 class Speaker:
     def __init__(self, sample_rate):
@@ -60,7 +62,6 @@ class Speaker:
 
 
 if __name__ == "__main__":
-    
 
     print("Testing Speaker playback with silence (no sound)...")
     with Speaker(sample_rate=16000) as speaker:

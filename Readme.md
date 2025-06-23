@@ -126,3 +126,37 @@ The tests cover functions like:
 * `get_delivery_date`: Returns estimated delivery date
 
 This ensures your backend logic behaves as expected.
+
+
+
+## Docker Usage
+
+### Build and Run the Docker Container
+
+1. Build the Docker image:
+
+```bash
+podman build -t deepgram-voice-assistant:latest .
+# or with docker:
+# docker build -t deepgram-voice-assistant:latest .
+```
+
+2. Run the container (map port 8501 and pass your `.env` file):
+
+```bash
+podman run -d -p 8501:8501 --env-file .env --name deepgram-voice-assistant deepgram-voice-assistant:latest
+# or with docker:
+# docker run -d -p 8501:8501 --env-file .env --name deepgram-voice-assistant deepgram-voice-assistant:latest
+```
+
+3. Access the app in your browser at [http://localhost:8501](http://localhost:8501).
+
+
+
+### Important Note on macOS
+
+* Due to macOS architecture and container isolation, **Docker containers cannot access your Mac's microphone or speaker hardware.**
+* This means **real-time audio input/output via PyAudio will not work inside the container on macOS**, causing errors and preventing live voice interaction.
+* For local audio functionality, run the app **directly on your host machine** (outside Docker).
+* The web interface (Streamlit app) can still be accessed remotely or in cloud deployments where audio devices are properly exposed.
+
