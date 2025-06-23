@@ -153,10 +153,23 @@ podman run -d -p 8501:8501 --env-file .env --name deepgram-voice-assistant deepg
 
 
 
+
+
 ### Important Note on macOS
 
 * Due to macOS architecture and container isolation, **Docker containers cannot access your Mac's microphone or speaker hardware.**
 * This means **real-time audio input/output via PyAudio will not work inside the container on macOS**, causing errors and preventing live voice interaction.
-* For local audio functionality, run the app directly on your host machine as described in the [Usage](#usage) section (i.e., using `python main.py` or `streamlit run app.py`) instead of inside Docker.
+* For local audio functionality, run the app **directly on your host machine** (outside Docker).
 * The web interface (Streamlit app) can still be accessed remotely or in cloud deployments where audio devices are properly exposed.
+
+#### Why This Happens:
+
+* **Docker on macOS uses a Linux VM**: Docker Desktop for Mac runs a lightweight Linux virtual machine (VM) to host the Docker daemon and containers.
+* **Isolation from the Host**: This Linux VM provides a security boundary, isolating the containers from directly accessing the Mac host's hardware, including audio devices.
+* **No Direct Hardware Access**: The Docker-for-Mac VM does not have built-in support for passing through the sound device from the Mac host to the container. Applications inside the container don't have direct access to the host's sound card or devices like `/dev/snd`.
+
+#### Possible Workarounds:
+
+Although direct access isn't straightforward, you can use workarounds like setting up a **PulseAudio** server on the Mac host and configuring the container to connect to it. This allows the container to send or receive audio data through the PulseAudio server, effectively utilizing the Mac's audio hardware.
+However, this method requires manual configuration and is **not as seamless or reliable** as running the application natively on the host.
 
