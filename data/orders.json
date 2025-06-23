@@ -22,7 +22,6 @@
     ],
     "shipping_address": {
       "line1": "123 Elm Street",
-      "line2": "Apt 4B",
       "city": "Springfield",
       "state": "IL",
       "zip": "62704",
@@ -46,7 +45,6 @@
     ],
     "shipping_address": {
       "line1": "456 Oak Avenue",
-      "line2": "",
       "city": "Columbus",
       "state": "OH",
       "zip": "43215",
