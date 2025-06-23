@@ -2,17 +2,25 @@
 
 A voice-enabled conversational assistant for inventory managers to query order status, delivery schedules, items, shipping addresses, and vendor information across multiple store locations. This demo showcases integration of Deepgram’s real-time speech-to-text API with OpenAI’s GPT-4 for natural language understanding, providing a seamless voice interface accessible via both a terminal app and a Streamlit web app.
 
+
+
 ## Table of Contents
 
-- [Overview](#overview)  
-- [Features](#features)  
-- [Getting Started](#getting-started)  
-- [Installation](#installation)  
-- [Usage](#usage)  
-- [Configuration](#configuration)  
-- [Project Structure](#project-structure)  
-- [Extending the Assistant](#extending-the-assistant)  
-- [License](#license)
+* [Overview](#overview)
+* [Features](#features)
+* [Getting Started](#getting-started)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Configuration](#configuration)
+* [Directory Structure](#directory-structure)
+* [Testing](#testing)
+* [Docker Usage](#docker-usage)
+
+
+
+
+Let me know if you want the full updated README file with these sections integrated or any other modifications!
+
 
 ## Overview
 
@@ -82,20 +90,24 @@ OPENAI_API_KEY=your_openai_api_key
 
 * `agent_config.py`: Customize prompts, models, and function definitions.
 * `agent_functions.py`: Backend logic to query orders and map spoken IDs to real data.
-* `orders.json`: Sample JSON dataset of orders, vendors, and delivery info.
+* `/data/`: Contains the CSV datasets (`orders.csv` and `order_items.csv`) with order and item data.
 
-## Project Structure
+
+
+
+## Directory Structure
 
 ```
 ├── main.py              # Terminal app entry point with mic and streaming  
 ├── app.py               # Streamlit web app interface  
 ├── agent_config.py      # Agent settings and prompts  
 ├── agent_functions.py   # Backend query functions  
-├── orders.json          # Sample order data  
+├── /data                # Folder containing CSV datasets (orders.csv, order_items.csv)  
 ├── speaker.py           # Audio playback utility  
 ├── requirements.txt     # Dependencies  
 ├── README.md            # This file  
-└── .env                 # API keys (not committed)
+└── .env                 # API keys (user needs to create this file)  
+
 ```
 
 ## Testing
