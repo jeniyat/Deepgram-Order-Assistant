@@ -15,6 +15,7 @@ A voice-enabled conversational assistant for inventory managers to query order s
 * [Directory Structure](#directory-structure)
 * [Testing](#testing)
 * [Docker Usage](#docker-usage)
+* [Credits and Attribution](#credits-and-attribution)
 
 
 ## Overview
@@ -184,4 +185,13 @@ For full voice functionality (microphone and speaker access):
 
 * **Run the app natively on your Mac** (outside Docker) using the instructions in the [Usage](#usage) section.
 * Use Docker only for UI deployments in remote or cloud environments where audio devices are properly exposed.
+
+
+
+
+
+## Credits and Attribution
+
+This project is **inspired by** and **developed following guidelines from** the [Deepgram Voice Agent Python Client repository](https://github.com/deepgram/voice-agent-python-client/). Special thanks to the Deepgram team for providing this reference implementation of audio playback and voice agent components, which greatly informed the design and architecture of this demo.
+
 

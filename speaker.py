@@ -4,6 +4,8 @@ import pyaudio
 import queue
 import time
 import asyncio
+import wave
+import os
 
 
 def _play(audio_out, stream, stop):
@@ -63,12 +65,35 @@ class Speaker:
 
 if __name__ == "__main__":
 
-    print("Testing Speaker playback with silence (no sound)...")
-    with Speaker(sample_rate=16000) as speaker:
-        loop = asyncio.get_event_loop()
-        # Put 0.5 seconds of silence (32000 bytes of zeros for 16kHz 16-bit mono)
-        silence = b"\x00" * 32000
-        loop.run_until_complete(speaker.play(silence))
-        print("Silence queued for playback. Waiting 1 sec...")
-        time.sleep(1)
-    print("Speaker test done.")
+    async def main():
+        print("Testing Speaker playback with silence (no sound)...")
+        with Speaker(sample_rate=16000) as speaker:
+            # Play 0.5 seconds of silence
+            silence = b"\x00" * 32000
+            await speaker.play(silence)
+            print("Silence queued for playback. Waiting 1 sec...")
+            time.sleep(1)
+
+        # Path to your wav file
+        wav_path = "../preamble.wav"
+        if os.path.exists(wav_path):
+            print(f"\nTesting Speaker playback with '{wav_path}'...")
+            with wave.open(wav_path, 'rb') as wav_file:
+                channels = wav_file.getnchannels()
+                sample_width = wav_file.getsampwidth()
+                sample_rate = wav_file.getframerate()
+                frames = wav_file.readframes(wav_file.getnframes())
+
+                if channels != 1 or sample_width != 2:
+                    raise ValueError("preamble.wav must be mono and 16-bit PCM.")
+
+            with Speaker(sample_rate=sample_rate) as speaker:
+                await speaker.play(frames)
+                print("WAV audio queued for playback. Waiting 2 sec...")
+                time.sleep(2)
+        else:
+            print(f"'{wav_path}' not found. Skipping WAV playback.")
+
+        print("\nSpeaker test done.")
+
+    asyncio.run(main())
