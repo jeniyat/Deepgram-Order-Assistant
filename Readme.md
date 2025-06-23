@@ -16,7 +16,7 @@ A voice-enabled conversational assistant for inventory managers to query order s
 
 ## Overview
 
-Inventory managers require quick, hands-free access to order-related information across multiple stores. This assistant listens to spoken queries, transcribes speech in real time via Deepgram, interprets intent with GPT-4, and fetches relevant data from JSON-based order records, responding verbally and in text.
+Inventory managers require quick, hands-free access to order-related information across multiple stores. This assistant listens to spoken queries, transcribes speech in real time via Deepgram, interprets intent with GPT-4, and fetches relevant data from order records, responding verbally and in text.
 
 ## Features
 
