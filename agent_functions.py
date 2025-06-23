@@ -1,17 +1,62 @@
 import json
 
-# Load orders once on import
-with open("orders.json") as f:
-    ORDERS = json.load(f)
+import csv
+from collections import defaultdict
+
+ORDERS = []
+
+# Read order-level data
+orders_map = {}
+with open("./data/orders.csv", newline='') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        order_id = row["order_id"]
+        orders_map[order_id] = {
+            "order_id": order_id,
+            "store_location": row["store_location"],
+            "vendor_name": row["vendor_name"],
+            "status": row["status"],
+            "order_date": row["order_date"],
+            "delivery_date": row["delivery_date"],
+            "items": [],  # will populate later
+            "shipping_address": {
+                "line1": row["shipping_address_line1"],
+                "line2": row.get("shipping_address_line2", ""),
+                "city": row["shipping_address_city"],
+                "state": row["shipping_address_state"],
+                "zip": row["shipping_address_zip"],
+                "country": row["shipping_address_country"]
+            }
+        }
+
+# Read item-level data and append to appropriate order
+with open("./data/order_items.csv", newline='') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        item = {
+            "product_id": row["product_id"],
+            "product_name": row["product_name"],
+            "quantity": int(row["quantity"]),
+            "unit_price": float(row["unit_price"])
+        }
+        orders_map[row["order_id"]]["items"].append(item)
+
+# Convert to list
+ORDERS = list(orders_map.values())
+
 
 ORDER_ID_MAP = {
-    "a one two three": "10001",
-    "one zero zero zero one": "10001",
-    "b four five six": "10023",
-    "one zero zero two three": "10023",
-    "c seven eight nine": "10100",
-    "one zero one zero zero": "10100",
+    "one zero four five one": "10451",
+    "ten four five one": "10451",
+
+    "one zero one two three": "10123",
+    "ten one two three": "10123",
+
+    "one zero six four five": "10645",
+    "ten six four five": "10645",
+    
 }
+
 
 
 def normalize_order_id(order_id: str) -> str:
@@ -107,6 +152,7 @@ FUNCTION_MAP = {
 
 if __name__ == "__main__":
     # Quick test examples
-    print(get_order_status("a one two three"))
-    print(get_order_items("a one two three"))
-    print(get_delivery_address("a one two three"))
+    test_key = "springfield order"
+    print(get_order_status(test_key))
+    print(get_order_items(test_key))
+    print(get_delivery_address(test_key))
